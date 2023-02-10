@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.base64decrypt
 import com.crocodic.core.extension.checkLocationPermission
+import com.crocodic.core.extension.notify
+import com.crocodic.core.model.AppNotification
 import com.example.googlemaps.databinding.ActivityMainBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,6 +25,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : NoViewModelActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
+
+        //notification
+        val appNotification = AppNotification (
+            title = "Uji Coba Notifikasi",
+            content = "Notifikasi ini saya kirim dari dalam aplikasi googleMaps"
+                )
+
+        // EventBus.getDefault().post(appNotification)
+        notify(appNotification) {
+
+        }
 
         Places.initialize(applicationContext, "AIzaSyB1imnmC0gLZc9BKWTrJ1km5ZElt9Q8n2E")
         val autoCompleteFragment =
@@ -44,13 +58,13 @@ class MainActivity : NoViewModelActivity<ActivityMainBinding>(R.layout.activity_
         val hermina = LatLng(-7.0727976, 110.411677) //Ending point
 
         binding.mapView.getMapAsync {  googleMap ->
-            googleMap.drawRouteOnMap(
-                mapsApiKey = getString(R.string.google_api_key).base64decrypt(),
-                source = crocodic,
-                destination = hermina,
-                context = applicationContext
-            )
-            googleMap.setPadding(100, 100, 100, 100)
+//            googleMap.drawRouteOnMap(
+//                mapsApiKey = getString(R.string.google_api_key).base64decrypt(),
+//                source = crocodic,
+//                destination = hermina,
+//                context = applicationContext
+//            )
+//            googleMap.setPadding(100, 100, 100, 100)
         }
 
         checkLocationPermission {
